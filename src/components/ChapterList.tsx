@@ -18,13 +18,13 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-      <header className="max-w-7xl mx-auto pt-8 px-4 md:px-8 w-full">
+      <header className="max-w-7xl mx-auto pt-8 px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex justify-between items-center mb-4">
           <nav className="flex items-center space-x-2 text-primary dark:text-[#cfaab7] overflow-x-auto whitespace-nowrap py-1">
             <Link className="text-sm font-medium hover:underline opacity-80" href="/">Home</Link>
-            <ChevronRight size={14} className="opacity-40" />
+            <ChevronRight size={16} className="text-gray-500" />
             <span className="text-sm font-medium hover:underline opacity-80 cursor-pointer">Audio Books</span>
-            <ChevronRight size={14} className="opacity-40" />
+            <ChevronRight size={16} className="text-gray-500" />
             <span className="text-sm font-bold text-primary dark:text-slate-100">My Du&apos;a Book</span>
           </nav>
           <ThemeToggle />
@@ -51,16 +51,16 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 pb-8 w-full flex-grow">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 w-full flex-grow">
         {filteredChapters.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredChapters.map((chapter) => (
-              <Link key={chapter.id} href={`/chapters/${chapter.slug}`} className="chapter-card bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-4 group shadow-sm hover:shadow-lg dark:hover:shadow-black/40 transition-all duration-250 ease-out hover:-translate-y-0.5">
+              <Link key={chapter.id} href={`/chapters/${chapter.slug}`} className="chapter-card bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-200 dark:border-slate-800 flex items-start gap-4 group shadow-sm hover:shadow-md transition-shadow duration-250 ease-out hover:-translate-y-0.5">
                 <div className="flex flex-col items-center flex-shrink-0">
                   <div className="w-12 h-12 rounded-full bg-[#5a3e49]/10 dark:bg-[#5a3e49]/30 flex items-center justify-center text-primary dark:text-[#cfaab7] font-bold text-xl group-hover:scale-110 transition-transform border border-[#5a3e49]/20 dark:border-[#5a3e49]/50">
                     {chapter.id}
                   </div>
-                  <BookOpen size={20} className="text-primary/40 dark:text-[#cfaab7]/40 mt-3" />
+                  <BookOpen size={24} strokeWidth={1.5} className="text-gray-400 mt-3" />
                 </div>
                 <div className="flex-grow pt-1">
                   <div className="flex justify-between items-start mb-1">
@@ -82,7 +82,7 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
         )}
       </main>
 
-      <footer className="max-w-7xl mx-auto py-8 px-4 md:px-8 w-full flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors">
+      <footer className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors">
         <div className="text-xl font-bold text-slate-900 dark:text-slate-100">My Du&apos;a Book</div>
         <div className="flex gap-6">
           <span className="text-sm text-slate-500 dark:text-slate-400 hover:text-[#006b54] transition-colors cursor-pointer">Privacy Policy</span>

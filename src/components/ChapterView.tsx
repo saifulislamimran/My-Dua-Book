@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useAudioStore } from '@/store/useAudioStore';
 import { Chapter } from '@/types';
-import { ChevronRight, Download, Search, Play, Pause } from 'lucide-react';
+import { ChevronRight, Download, Search, PlayCircle, PauseCircle } from 'lucide-react';
 
 export function ChapterView({ chapter }: { chapter: Chapter }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,13 +33,13 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
       
       {/* Header Section */}
       <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center mb-6">
             <nav className="flex items-center space-x-2 text-primary dark:text-[#cfaab7] overflow-x-auto whitespace-nowrap">
               <Link className="text-sm font-medium hover:underline opacity-80" href="/">Home</Link>
-              <ChevronRight size={14} className="opacity-40" />
+              <ChevronRight size={16} className="text-gray-500" />
               <Link className="text-sm font-medium hover:underline opacity-80" href="/chapters">My Du&apos;a Book</Link>
-              <ChevronRight size={14} className="opacity-40" />
+              <ChevronRight size={16} className="text-gray-500" />
               <span className="text-sm font-bold text-primary dark:text-slate-100">{chapter.title.split('.')[0]}</span>
             </nav>
             <ThemeToggle />
@@ -62,7 +62,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 md:px-8 mt-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         
         {/* Search */}
         <div className="mb-8">
@@ -83,11 +83,11 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
-                  <th className="py-4 px-6 font-semibold text-slate-600 dark:text-slate-400 w-16 text-center">#</th>
-                  <th className="py-4 px-6 font-semibold text-slate-600 dark:text-slate-400 w-48 md:w-64">Topic</th>
-                  <th className="py-4 px-6 font-semibold text-slate-600 dark:text-slate-400 text-right md:text-center">Arabic & English</th>
-                  <th className="py-4 px-6 font-semibold text-slate-600 dark:text-slate-400 text-center w-24">Audio</th>
+                <tr className="border-b border-gray-200 dark:border-slate-800 bg-transparent">
+                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[5%] text-left">#</th>
+                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[20%] text-left">Topic</th>
+                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[65%] text-left">Arabic & English</th>
+                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[10%] text-right">Audio</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,35 +101,33 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
                         key={dua.serial}
                         className={`border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors ${isCurrentDua ? 'bg-[#006b54]/5 dark:bg-[#006b54]/10' : ''}`}
                       >
-                        <td className="py-8 px-6 text-slate-500 dark:text-slate-400 align-top text-center font-medium">
+                        <td className="py-8 px-6 text-gray-500 dark:text-gray-400 align-top text-left font-medium w-[5%]">
                           {dua.serial}
                         </td>
-                        <td className="py-8 px-6 font-medium text-[#1E3A8A] dark:text-blue-300 align-top">
+                        <td className="py-8 px-6 font-medium text-[#1E3A8A] dark:text-blue-300 align-top text-left w-[20%]">
                           {dua.topic}
                         </td>
-                        <td className="py-8 px-6">
-                          <div className="mb-6 flex justify-end">
-                            <p className="font-amiri font-bold text-3xl md:text-4xl leading-[3] text-right text-primary dark:text-white" dir="rtl">
-                              {dua.arabic}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-slate-600 dark:text-slate-300 leading-relaxed md:text-lg">
-                              {dua.english}
-                            </p>
+                        <td className="py-8 px-6 w-[65%]">
+                          <div className="flex flex-col gap-4">
+                            <div className="flex justify-end w-full">
+                              <p className="font-amiri font-bold text-3xl md:text-4xl leading-relaxed text-right text-primary dark:text-white" dir="rtl">
+                                {dua.arabic}
+                              </p>
+                            </div>
+                            <div className="w-full">
+                              <p className="text-gray-600 dark:text-gray-300 leading-relaxed md:text-lg text-left">
+                                {dua.english}
+                              </p>
+                            </div>
                           </div>
                         </td>
-                        <td className="py-8 px-6 align-top">
-                          <div className="flex justify-center mt-2">
+                        <td className="py-8 px-6 align-top text-right w-[10%]">
+                          <div className="flex justify-end mt-2">
                             <button 
                               onClick={() => handlePlayClick(dua)}
-                              className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all shadow-sm ${
-                                isCurrentDua 
-                                  ? 'bg-[#006b54] border-[#006b54] text-white'
-                                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-[#006b54] hover:bg-[#006b54] hover:text-white hover:border-[#006b54]'
-                              }`}
+                              className="text-teal-600 hover:text-teal-700 dark:text-teal-500 dark:hover:text-teal-400 transition-colors"
                             >
-                              {isRowPlaying ? <Pause size={20} className="fill-current" /> : <Play size={20} className="fill-current" />}
+                              {isRowPlaying ? <PauseCircle size={32} strokeWidth={1.5} /> : <PlayCircle size={32} strokeWidth={1.5} />}
                             </button>
                           </div>
                         </td>
