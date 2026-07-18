@@ -1,26 +1,27 @@
 'use client';
 
-import React from 'react';
-import { useTheme } from './ThemeProvider';
 import { Sun, Moon } from 'lucide-react';
 
 export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+  const toggleTheme = () => {
+    const htmlElement = document.documentElement;
+    htmlElement.classList.toggle('dark');
+    const isNowDark = htmlElement.classList.contains('dark');
+    localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
+  };
 
   return (
     <button 
       onClick={toggleTheme}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 transition-all duration-300 active:scale-95 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/20"
-      aria-label="Toggle Theme"
+      className="p-base rounded-full hover:bg-white dark:hover:bg-slate-800 transition-all duration-300 flex items-center justify-center border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm w-[38px] h-[38px]"
+      aria-label="Toggle theme"
     >
-      <span className="text-sm font-medium hidden sm:block">
-        {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+      <span className="block dark:hidden">
+        <Sun size={20} className="text-primary" />
       </span>
-      {theme === 'dark' ? (
-        <Sun size={18} className="text-amber-400" strokeWidth={2.5} />
-      ) : (
-        <Moon size={18} className="text-indigo-500" strokeWidth={2.5} />
-      )}
+      <span className="hidden dark:block">
+        <Moon size={20} className="text-[#cfaab7]" />
+      </span>
     </button>
   );
 }
