@@ -2,7 +2,6 @@
 
 import type { Metadata } from "next";
 import { Inter, Amiri } from "next/font/google";
-// @ts-expect-error: CSS global import type declarations are unavailable in this project
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AudioPlayer } from "@/components/AudioPlayer";
