@@ -79,71 +79,60 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
         </div>
 
         {/* Duas Table */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-colors">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-slate-800 bg-transparent">
-                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[5%] text-left">#</th>
-                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[20%] text-left">Topic</th>
-                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[65%] text-left">Arabic & English</th>
-                  <th className="py-4 px-6 text-gray-500 uppercase text-sm tracking-wider w-[10%] text-right">Audio</th>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-700 overflow-x-auto shadow-sm">
+          <table className="w-full text-left border-collapse" id="dua-table">
+            <thead>
+              <tr className="bg-brand-navy dark:bg-slate-800 text-white border-b border-gray-200 dark:border-slate-700">
+                <th className="px-4 py-4 font-label-lg text-label-lg w-12 text-center uppercase">#</th>
+                <th className="px-4 py-4 font-label-lg text-label-lg w-48 uppercase">Topic</th>
+                <th className="px-4 py-4 font-label-lg text-label-lg text-right uppercase">Supplication (Arabic)</th>
+                <th className="px-4 py-4 font-label-lg text-label-lg w-72 uppercase">Translation</th>
+                <th className="px-4 py-4 font-label-lg text-label-lg w-20 text-center uppercase">Audio</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
+              {filteredDuas.length > 0 ? (
+                filteredDuas.map((dua, index) => {
+                  const isCurrentDua = currentDua?.serial === dua.serial;
+                  const isRowPlaying = isCurrentDua && isPlaying;
+                  
+                  return (
+                    <tr 
+                      key={dua.serial}
+                      className={`transition-colors duration-200 ${isCurrentDua ? 'bg-brand-teal/10 dark:bg-brand-teal/20' : (index % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-gray-50 dark:bg-slate-800')}`}
+                    >
+                      <td className="px-4 py-6 text-gray-500 dark:text-gray-400 font-medium text-center border-r border-gray-100 dark:border-slate-800">
+                        {dua.serial}
+                      </td>
+                      <td className="px-4 py-6 font-bold text-brand-navy dark:text-blue-300">
+                        {dua.topic}
+                      </td>
+                      <td className="px-4 py-6 text-right font-arabic text-3xl leading-relaxed text-gray-800 dark:text-gray-100" dir="rtl">
+                        {dua.arabic}
+                      </td>
+                      <td className="px-4 py-6 font-body-md italic text-gray-600 dark:text-gray-300 leading-relaxed">
+                        {dua.english}
+                      </td>
+                      <td className="px-4 py-6 text-center">
+                        <button 
+                          onClick={() => handlePlayClick(dua)}
+                          className="p-3 rounded-full text-brand-teal hover:bg-brand-teal/10 dark:hover:bg-brand-teal/20 transition-colors"
+                        >
+                          {isRowPlaying ? <PauseCircle size={28} strokeWidth={1.5} /> : <PlayCircle size={28} strokeWidth={1.5} />}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={5} className="py-16 text-center text-slate-500">
+                    No supplications found.
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {filteredDuas.length > 0 ? (
-                  filteredDuas.map((dua) => {
-                    const isCurrentDua = currentDua?.serial === dua.serial;
-                    const isRowPlaying = isCurrentDua && isPlaying;
-                    
-                    return (
-                      <tr 
-                        key={dua.serial}
-                        className={`border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors ${isCurrentDua ? 'bg-[#006b54]/5 dark:bg-[#006b54]/10' : ''}`}
-                      >
-                        <td className="py-8 px-6 text-gray-500 dark:text-gray-400 align-top text-left font-medium w-[5%]">
-                          {dua.serial}
-                        </td>
-                        <td className="py-8 px-6 font-medium text-[#1E3A8A] dark:text-blue-300 align-top text-left w-[20%]">
-                          {dua.topic}
-                        </td>
-                        <td className="py-8 px-6 w-[65%]">
-                          <div className="flex flex-col gap-4">
-                            <div className="flex justify-end w-full">
-                              <p className="font-amiri font-bold text-3xl md:text-4xl leading-relaxed text-right text-primary dark:text-white" dir="rtl">
-                                {dua.arabic}
-                              </p>
-                            </div>
-                            <div className="w-full">
-                              <p className="text-gray-600 dark:text-gray-300 leading-relaxed md:text-lg text-left">
-                                {dua.english}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="py-8 px-6 align-top text-right w-[10%]">
-                          <div className="flex justify-end mt-2">
-                            <button 
-                              onClick={() => handlePlayClick(dua)}
-                              className="text-teal-600 hover:text-teal-700 dark:text-teal-500 dark:hover:text-teal-400 transition-colors"
-                            >
-                              {isRowPlaying ? <PauseCircle size={32} strokeWidth={1.5} /> : <PlayCircle size={32} strokeWidth={1.5} />}
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="py-16 text-center text-slate-500">
-                      No supplications found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+              )}
+            </tbody>
+          </table>
         </div>
 
       </main>
