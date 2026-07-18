@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useAudioStore } from '@/store/useAudioStore';
 import { Chapter } from '@/types';
+import { ChevronRight, Download, Search, Play, Pause } from 'lucide-react';
 
 export function ChapterView({ chapter }: { chapter: Chapter }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,9 +37,9 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
           <div className="flex justify-between items-center mb-6">
             <nav className="flex items-center space-x-2 text-primary dark:text-[#cfaab7] overflow-x-auto whitespace-nowrap">
               <Link className="text-sm font-medium hover:underline opacity-80" href="/">Home</Link>
-              <span className="material-symbols-outlined text-[16px] opacity-40">chevron_right</span>
+              <ChevronRight size={14} className="opacity-40" />
               <Link className="text-sm font-medium hover:underline opacity-80" href="/chapters">My Du&apos;a Book</Link>
-              <span className="material-symbols-outlined text-[16px] opacity-40">chevron_right</span>
+              <ChevronRight size={14} className="opacity-40" />
               <span className="text-sm font-bold text-primary dark:text-slate-100">{chapter.title.split('.')[0]}</span>
             </nav>
             <ThemeToggle />
@@ -52,7 +53,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
             
             <div className="flex items-center gap-4">
               <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-medium text-sm">
-                <span className="material-symbols-outlined text-[20px]">file_download</span>
+                <Download size={18} />
                 Download PDF
               </button>
             </div>
@@ -66,7 +67,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
         {/* Search */}
         <div className="mb-8">
           <div className="relative group rounded-xl overflow-hidden max-w-md">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006b54] transition-colors z-10">search</span>
+            <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#006b54] transition-colors z-10" />
             <input 
               type="text" 
               placeholder="Search supplications..." 
@@ -82,7 +83,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                <tr className="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
                   <th className="py-4 px-6 font-semibold text-slate-600 dark:text-slate-400 w-16 text-center">#</th>
                   <th className="py-4 px-6 font-semibold text-slate-600 dark:text-slate-400 w-48 md:w-64">Topic</th>
                   <th className="py-4 px-6 font-semibold text-slate-600 dark:text-slate-400 text-right md:text-center">Arabic & English</th>
@@ -108,7 +109,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
                         </td>
                         <td className="py-8 px-6">
                           <div className="mb-6 flex justify-end">
-                            <p className="font-amiri text-3xl md:text-4xl leading-loose text-right text-primary dark:text-white" dir="rtl">
+                            <p className="font-amiri font-bold text-3xl md:text-4xl leading-[3] text-right text-primary dark:text-white" dir="rtl">
                               {dua.arabic}
                             </p>
                           </div>
@@ -128,9 +129,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
                                   : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-[#006b54] hover:bg-[#006b54] hover:text-white hover:border-[#006b54]'
                               }`}
                             >
-                              <span className="material-symbols-outlined text-[24px]">
-                                {isRowPlaying ? 'pause' : 'play_arrow'}
-                              </span>
+                              {isRowPlaying ? <Pause size={20} className="fill-current" /> : <Play size={20} className="fill-current" />}
                             </button>
                           </div>
                         </td>

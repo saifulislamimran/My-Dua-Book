@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Howl } from 'howler';
 import { useAudioStore } from '@/store/useAudioStore';
+import { AudioLines, SkipBack, Play, Pause, SkipForward, Volume2, X } from 'lucide-react';
 
 export function AudioPlayer() {
   const { 
@@ -117,7 +118,7 @@ export function AudioPlayer() {
         {/* Metadata */}
         <div className="flex items-center gap-4 flex-1 w-full md:w-auto mt-1">
           <div className="w-12 h-12 bg-[#61C9A8]/20 rounded-lg flex items-center justify-center text-[#61C9A8]">
-            <span className="material-symbols-outlined">graphic_eq</span>
+            <AudioLines size={24} />
           </div>
           <div className="overflow-hidden">
             <h4 className="font-bold text-[#1E3A8A] dark:text-blue-300 truncate">{currentDua.topic}</h4>
@@ -128,31 +129,31 @@ export function AudioPlayer() {
         {/* Controls */}
         <div className="flex items-center gap-6">
           <button className="text-gray-600 dark:text-gray-300 hover:text-[#1E3A8A] dark:hover:text-white transition-colors">
-            <span className="material-symbols-outlined">skip_previous</span>
+            <SkipBack size={24} />
           </button>
           
           <button 
             onClick={togglePlayPause}
             className="w-14 h-14 rounded-full bg-[#61C9A8] text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
           >
-            <span className="material-symbols-outlined text-[32px]">{isPlaying ? 'pause' : 'play_arrow'}</span>
+            {isPlaying ? <Pause size={28} className="fill-current" /> : <Play size={28} className="fill-current ml-1" />}
           </button>
           
           <button className="text-gray-600 dark:text-gray-300 hover:text-[#1E3A8A] dark:hover:text-white transition-colors">
-            <span className="material-symbols-outlined">skip_next</span>
+            <SkipForward size={24} />
           </button>
         </div>
 
         {/* Info and Volume */}
         <div className="hidden md:flex flex-1 justify-end items-center gap-4">
           <button className="text-gray-600 dark:text-gray-300 hover:text-[#1E3A8A] dark:hover:text-white transition-colors">
-            <span className="material-symbols-outlined">volume_up</span>
+            <Volume2 size={24} />
           </button>
           <button 
             onClick={closePlayer}
             className="ml-2 text-gray-400 hover:text-red-500 transition-colors"
           >
-            <span className="material-symbols-outlined">close</span>
+            <X size={24} />
           </button>
         </div>
       </div>
