@@ -37,7 +37,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
             <nav className="flex items-center space-x-2 text-primary dark:text-[#cfaab7] overflow-x-auto whitespace-nowrap">
               <Link className="text-sm font-medium hover:underline opacity-80" href="/">Home</Link>
               <span className="material-symbols-outlined text-[16px] opacity-40">chevron_right</span>
-              <Link className="text-sm font-medium hover:underline opacity-80" href="/chapters">My Du'a Book</Link>
+              <Link className="text-sm font-medium hover:underline opacity-80" href="/chapters">My Du&apos;a Book</Link>
               <span className="material-symbols-outlined text-[16px] opacity-40">chevron_right</span>
               <span className="text-sm font-bold text-primary dark:text-slate-100">{chapter.title.split('.')[0]}</span>
             </nav>

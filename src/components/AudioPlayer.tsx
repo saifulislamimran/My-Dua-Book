@@ -45,7 +45,7 @@ export function AudioPlayer() {
         howlRef.current.unload();
       }
     };
-  }, [currentDua]);
+  }, [currentDua, isPlaying, setProgress, togglePlayPause]);
 
   // Handle play/pause state changes
   useEffect(() => {

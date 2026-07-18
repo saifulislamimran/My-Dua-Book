@@ -24,7 +24,7 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
             <span className="material-symbols-outlined text-[16px] opacity-40">chevron_right</span>
             <span className="text-sm font-medium hover:underline opacity-80 cursor-pointer">Audio Books</span>
             <span className="material-symbols-outlined text-[16px] opacity-40">chevron_right</span>
-            <span className="text-sm font-bold text-primary dark:text-slate-100">My Du'a Book</span>
+            <span className="text-sm font-bold text-primary dark:text-slate-100">My Du&apos;a Book</span>
           </nav>
           <ThemeToggle />
         </div>
@@ -45,7 +45,7 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
         <div className="mb-8 text-left">
           <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2 tracking-tight">Chapters</h1>
           <p className="text-slate-600 dark:text-slate-400 max-w-2xl text-lg">
-            Explore the sacred collection of supplications in <span className="font-semibold italic">My Du'a Book</span>. Selected authentically for your daily spiritual journey.
+            Explore the sacred collection of supplications in <span className="font-semibold italic">My Du&apos;a Book</span>. Selected authentically for your daily spiritual journey.
           </p>
         </div>
       </header>
@@ -76,19 +76,19 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
         ) : (
           <div className="text-center py-20">
             <span className="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-800 mb-4">search_off</span>
-            <p className="text-slate-500 text-lg">No chapters found matching "{searchQuery}"</p>
+            <p className="text-slate-500 text-lg">No chapters found matching &quot;{searchQuery}&quot;</p>
           </div>
         )}
       </main>
 
       <footer className="max-w-7xl mx-auto py-8 px-4 md:px-8 w-full flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-200 dark:border-slate-800 mt-auto transition-colors">
-        <div className="text-xl font-bold text-slate-900 dark:text-slate-100">My Du'a Book</div>
+        <div className="text-xl font-bold text-slate-900 dark:text-slate-100">My Du&apos;a Book</div>
         <div className="flex gap-6">
           <span className="text-sm text-slate-500 dark:text-slate-400 hover:text-[#006b54] transition-colors cursor-pointer">Privacy Policy</span>
           <span className="text-sm text-slate-500 dark:text-slate-400 hover:text-[#006b54] transition-colors cursor-pointer">Contact</span>
         </div>
         <div className="text-sm text-slate-400 dark:text-slate-600">
-          © 2024 My Du'a Book. All rights reserved.
+          © 2024 My Du&apos;a Book. All rights reserved.
         </div>
       </footer>
     </div>

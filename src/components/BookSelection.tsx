@@ -35,7 +35,7 @@ export function BookSelection() {
               </div>
             </div>
             <div className="mt-2 flex flex-col h-full">
-              <h2 className="font-bold text-2xl mb-1">My Du'a Book</h2>
+              <h2 className="font-bold text-2xl mb-1">My Du&apos;a Book</h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Volume I</p>
               <div className="mt-auto">
                 <Link href="/chapters" className="block w-full text-center py-3 px-6 bg-primary text-white rounded-lg font-semibold text-lg hover:opacity-90 transition-all duration-300 transform active:scale-95 shadow-sm">
