@@ -151,7 +151,7 @@ export function AudioPlayer() {
         </div>
 
         {/* Metadata (Left) */}
-        <div className="flex items-center gap-4 w-full md:w-auto flex-1 mt-1">
+        <div className="flex items-center gap-4 w-full md:w-auto flex-1 min-w-0 mt-1">
           <div className="w-12 h-12 bg-brand-teal/20 rounded-lg flex items-center justify-center text-brand-teal flex-shrink-0">
             <AudioLines size={24} />
           </div>
@@ -162,7 +162,7 @@ export function AudioPlayer() {
         </div>
 
         {/* Playback Controls (Center) */}
-        <div className="flex items-center justify-center gap-4 md:gap-6 w-full md:w-auto order-last md:order-none pb-2 md:pb-0 pt-2 md:pt-0 border-t border-gray-200/50 dark:border-slate-700/50 md:border-none">
+        <div className="flex items-center justify-center gap-4 md:gap-6 w-full md:w-auto flex-shrink-0 order-last md:order-none pb-2 md:pb-0 pt-2 md:pt-0 border-t border-gray-200/50 dark:border-slate-700/50 md:border-none">
           <button 
             onClick={playPrev}
             className="text-gray-600 dark:text-gray-300 hover:text-brand-navy dark:hover:text-white transition-colors"
@@ -186,7 +186,7 @@ export function AudioPlayer() {
         </div>
 
         {/* Info, Volume, Loop, Close (Right) */}
-        <div className="flex items-center justify-end w-auto gap-3 md:gap-4 mt-1 md:mt-0">
+        <div className="flex items-center justify-end w-auto flex-shrink-0 gap-3 md:gap-4 mt-1 md:mt-0">
           
           {/* Loop Mode Toggle */}
           <button 
