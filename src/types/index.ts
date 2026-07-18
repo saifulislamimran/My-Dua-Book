@@ -1,15 +1,16 @@
 export interface Dua {
-  serial: string;
+  id: number;
   topic: string;
   arabic: string;
-  english: string;
-  audio_path: string;
+  translation_en: string;
+  translation_bn?: string;
+  audioSrc: string;
 }
 
 export interface Chapter {
-  id: string;
-  title: string;
+  id: string; // e.g., 'A', 'B'
   slug: string;
+  title: string;
   description: string;
   duas: Dua[];
 }

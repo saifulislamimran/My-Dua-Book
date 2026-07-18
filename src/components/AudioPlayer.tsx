@@ -44,9 +44,9 @@ export function AudioPlayer() {
       howlRef.current = null;
     }
 
-    if (activeTrack?.audio_path) {
+    if (activeTrack?.audioSrc) {
       howlRef.current = new Howl({
-        src: [activeTrack.audio_path],
+        src: [activeTrack.audioSrc],
         html5: true, // Force HTML5 audio to allow streaming and avoid CORS issues
         volume: volume,
         onend: () => {
@@ -157,7 +157,7 @@ export function AudioPlayer() {
           </div>
           <div className="overflow-hidden min-w-0">
             <h4 className="font-bold text-brand-navy dark:text-blue-300 truncate">{activeTrack.topic}</h4>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Track {activeTrack.serial}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Track {activeTrack.id}</p>
           </div>
         </div>
 

@@ -20,7 +20,7 @@ export function BookSelection() {
         {/* Main Content Area */}
         <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-xl">
           {/* Active Card: My Du'a Book */}
-          <Link href="/chapters" className="flex flex-col bg-white dark:bg-slate-800 p-md rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm group cursor-pointer hover:shadow-md hover:border-primary/30 transition-all">
+          <Link href="/my-dua-book" className="flex flex-col bg-white dark:bg-slate-800 p-md rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm group cursor-pointer hover:shadow-md hover:border-primary/30 transition-all">
             <div className="book-container aspect-[3/4] mb-lg relative">
               <div className="book-3d h-full w-full">
                 <div className="book-side rounded-l-sm"></div>

@@ -1,3 +1,32 @@
+/**
+ * =========================================================================
+ * AUDIO INPUT GUIDE FOR LOCAL MP3 FILES
+ * =========================================================================
+ * 
+ * To make the audio work, you need to create the exact folder structure
+ * inside the standard Next.js 'public' directory and drop your .mp3 files there.
+ * 
+ * Folder Structure:
+ * 1. Open the 'public' folder at the root of your project.
+ * 2. Create a folder named 'audio' inside 'public' -> 'public/audio/'
+ * 3. Inside 'audio', create folders for each chapter slug based on duaBook.ts:
+ *    - 'public/audio/chapter-a/'
+ *    - 'public/audio/chapter-b/'
+ *    ...etc
+ * 
+ * File Naming:
+ * Drop your .mp3 files inside their respective chapter folders.
+ * Make sure the file names match the 'audioSrc' paths in data/duaBook.ts exactly!
+ * 
+ * Example:
+ * If data/duaBook.ts has: audioSrc: "/audio/chapter-a/01.mp3"
+ * Your file MUST be placed at: public/audio/chapter-a/01.mp3
+ * 
+ * Once placed, Next.js will automatically serve these files and Howler.js 
+ * will stream them perfectly without any extra configuration.
+ * =========================================================================
+ */
+
 import { create } from 'zustand';
 import { Dua } from '../types';
 

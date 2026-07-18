@@ -55,7 +55,7 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
         {filteredChapters.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredChapters.map((chapter) => (
-              <Link key={chapter.id} href={`/chapters/${chapter.slug}`} className="bg-white dark:bg-slate-900 p-lg rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-md group shadow-sm hover:shadow-lg dark:hover:shadow-black/40 transition-all duration-250 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-[2px]">
+              <Link key={chapter.id} href={`/my-dua-book/${chapter.slug}`} className="bg-white dark:bg-slate-900 p-lg rounded-xl border border-slate-200 dark:border-slate-800 flex items-start gap-md group shadow-sm hover:shadow-lg dark:hover:shadow-black/40 transition-all duration-250 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-[2px]">
                 <div className="flex flex-col items-center flex-shrink-0">
                   <div className="w-12 h-12 rounded-full bg-primary-container/10 dark:bg-primary-container/30 flex items-center justify-center text-primary dark:text-on-primary-container font-bold text-xl group-hover:scale-110 transition-transform border border-primary-container/20 dark:border-primary-container/50">
                     {chapter.id}
