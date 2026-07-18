@@ -1,28 +1,29 @@
 import { create } from 'zustand';
+import { Dua } from '../types';
 
 interface AudioState {
-  currentTrackId: string | null;
+  currentDua: Dua | null;
   isPlaying: boolean;
   progressPercent: number;
-  playDua: (trackId: string) => void;
+  playDua: (dua: Dua) => void;
   togglePlayPause: () => void;
   setProgress: (percent: number) => void;
   closePlayer: () => void;
 }
 
 export const useAudioStore = create<AudioState>((set) => ({
-  currentTrackId: null,
+  currentDua: null,
   isPlaying: false,
   progressPercent: 0,
   
-  playDua: (trackId) => set({ 
-    currentTrackId: trackId, 
+  playDua: (dua) => set({ 
+    currentDua: dua, 
     isPlaying: true, 
     progressPercent: 0 
   }),
   
   togglePlayPause: () => set((state) => ({ 
-    isPlaying: state.currentTrackId ? !state.isPlaying : false 
+    isPlaying: state.currentDua ? !state.isPlaying : false 
   })),
   
   setProgress: (percent) => set({ 
@@ -30,7 +31,7 @@ export const useAudioStore = create<AudioState>((set) => ({
   }),
   
   closePlayer: () => set({ 
-    currentTrackId: null, 
+    currentDua: null, 
     isPlaying: false, 
     progressPercent: 0 
   }),
