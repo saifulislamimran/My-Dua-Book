@@ -10,9 +10,13 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredChapters = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return chapters;
+
     return chapters.filter(chapter => 
-      chapter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      chapter.description.toLowerCase().includes(searchQuery.toLowerCase())
+      chapter.title.toLowerCase().includes(query) ||
+      chapter.description.toLowerCase().includes(query) ||
+      (chapter.duas && chapter.duas.some(dua => dua.id.toString().includes(query)))
     );
   }, [searchQuery, chapters]);
 
@@ -35,7 +39,7 @@ export function ChapterList({ chapters }: { chapters: Chapter[] }) {
             <Search size={24} className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-secondary transition-colors z-10" />
             <input 
               type="text" 
-              placeholder="Search chapters by title or description..." 
+              placeholder="Search chapters by title, description, or Du'a number..." 
               className="w-full pl-14 pr-6 py-4 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-full shadow-sm focus:ring-4 focus:ring-secondary/20 focus:border-secondary outline-none transition-all text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

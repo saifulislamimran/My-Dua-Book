@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Howl } from 'howler';
 import { useAudioStore } from '@/store/useAudioStore';
+import { scanAndResolveAudio } from '@/utils/audioMapping';
 import { AudioLines, SkipBack, Play, Pause, SkipForward, Volume2, VolumeX, X, Repeat, Repeat1 } from 'lucide-react';
 
 export function AudioPlayer() {
@@ -24,6 +25,7 @@ export function AudioPlayer() {
   
   const howlRef = useRef<Howl | null>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
+  const [audioStatus, setAudioStatus] = useState<'loading' | 'original' | 'fallback' | 'error'>('loading');
 
   // Keep a ref to avoid stale closures in Howler callbacks without recreating Howl instance
   const storeRef = useRef({ loopMode, playNext, setProgress, togglePlayPause });
@@ -39,36 +41,94 @@ export function AudioPlayer() {
   }, [volume]);
 
   useEffect(() => {
+    setAudioStatus('loading');
+
     if (howlRef.current) {
       howlRef.current.unload();
       howlRef.current = null;
     }
 
-    if (activeTrack?.audioSrc) {
-      howlRef.current = new Howl({
-        src: [activeTrack.audioSrc],
-        html5: true, // Force HTML5 audio to allow streaming and avoid CORS issues
-        volume: volume,
-        onend: () => {
-          const { loopMode, playNext, setProgress } = storeRef.current;
-          setProgress(0);
-          if (loopMode === 'one') {
-            howlRef.current?.play();
-          } else {
-            playNext();
+    if (!activeTrack?.audioSrc) return;
+
+    let isUnmounted = false;
+
+    // Derive chapter slug prefix and id from the existing audioSrc string
+    const parts = activeTrack.audioSrc.split('/');
+    const chapter = parts[2] ? parts[2].replace('chapter-', '') : '';
+    const id = activeTrack.id;
+
+    // Client-side smart pre-fetch scanning
+    scanAndResolveAudio(chapter, id)
+      .then((result) => {
+        if (isUnmounted) return;
+        
+        setAudioStatus(result.status);
+
+        // Double-Layer Security: Failsafe fallback hook inside Howler
+        const initHowler = (url: string, isForcedFallback = false) => {
+          if (isUnmounted) return;
+
+          const newHowl = new Howl({
+            src: [url],
+            html5: true, 
+            format: ['mp3', 'm4a', 'mp4', 'wav', 'aac', 'ogg', 'flac'],
+            volume: volume,
+            onloaderror: () => {
+              if (isUnmounted) return;
+              if (!isForcedFallback && url !== '/audio/Nil.mp3') {
+                setAudioStatus('error');
+                if (howlRef.current) howlRef.current.unload();
+                initHowler('/audio/Nil.mp3', true);
+              } else {
+                setAudioStatus('error');
+              }
+            },
+            onplayerror: () => {
+              if (isUnmounted) return;
+              if (!isForcedFallback && url !== '/audio/Nil.mp3') {
+                setAudioStatus('error');
+                if (howlRef.current) howlRef.current.unload();
+                initHowler('/audio/Nil.mp3', true);
+              } else {
+                setAudioStatus('error');
+              }
+            },
+            onend: () => {
+              const { loopMode, playNext, setProgress } = storeRef.current;
+              setProgress(0);
+              if (loopMode === 'one') {
+                howlRef.current?.play();
+              } else {
+                playNext();
+              }
+            }
+          });
+
+          howlRef.current = newHowl;
+          
+          if (useAudioStore.getState().isPlaying) {
+            newHowl.play();
           }
+        };
+
+        if (result.status === 'error') {
+          // Scanner failed completely, skip straight to Nil.mp3 with error UI
+          setAudioStatus('error');
+          initHowler('/audio/Nil.mp3', true);
+        } else {
+          initHowler(result.url);
         }
+      })
+      .catch((err: unknown) => {
+        console.error('Failed to run audio scanner:', err);
+        if (!isUnmounted) setAudioStatus('error');
       });
-      
-      // Start playing automatically when a new track is selected
-      if (isPlaying) {
-        howlRef.current.play();
-      }
-    }
 
     return () => {
+      isUnmounted = true;
       if (howlRef.current) {
         howlRef.current.unload();
+        howlRef.current = null;
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,22 +192,26 @@ export function AudioPlayer() {
       <div className="px-4 md:px-6 py-3 flex flex-wrap md:flex-nowrap items-center justify-between gap-4 md:gap-6 relative">
         {/* Progress Bar Overlay */}
         <div 
-          className="absolute top-0 left-0 w-full h-1 bg-gray-200/30 dark:bg-slate-700/30 overflow-hidden cursor-pointer group"
+          className="absolute top-0 left-0 w-full h-6 cursor-pointer group z-10"
           onClick={(e) => {
             if (howlRef.current) {
               const rect = e.currentTarget.getBoundingClientRect();
               const x = e.clientX - rect.left;
-              const percent = x / rect.width;
+              const percent = Math.max(0, Math.min(1, x / rect.width));
               const duration = howlRef.current.duration();
               howlRef.current.seek(duration * percent);
               setProgress(percent * 100);
             }
           }}
         >
-          <div 
-            className="h-full bg-brand-teal shadow-[0_0_8px_rgba(97,201,168,0.6)] transition-all duration-100 ease-linear group-hover:h-1.5" 
-            style={{ width: `${progressPercent}%` }}
-          ></div>
+          <div className="w-full h-1.5 md:h-2 bg-gray-300 dark:bg-slate-600 transition-all duration-200 group-hover:h-2 md:group-hover:h-2.5 relative">
+            <div 
+              className="absolute top-0 left-0 h-full bg-brand-teal shadow-[0_0_8px_rgba(97,201,168,0.6)] transition-all duration-100 ease-linear" 
+              style={{ width: `${progressPercent}%` }}
+            >
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-4 h-4 bg-white border-[3px] border-brand-teal rounded-full shadow-md opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 z-20"></div>
+            </div>
+          </div>
         </div>
 
         {/* Metadata (Left) */}
@@ -157,7 +221,24 @@ export function AudioPlayer() {
           </div>
           <div className="overflow-hidden min-w-0">
             <h4 className="font-bold text-brand-navy dark:text-blue-300 truncate">{activeTrack.topic}</h4>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Track {activeTrack.id}</p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <p className="text-xs text-gray-600 dark:text-gray-400">Track {activeTrack.id}</p>
+              {audioStatus === 'loading' && (
+                <span className="text-[10px] bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider animate-pulse">
+                  Scanning...
+                </span>
+              )}
+              {audioStatus === 'fallback' && (
+                <span className="text-[10px] bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                  Default Audio
+                </span>
+              )}
+              {audioStatus === 'error' && (
+                <span className="text-[10px] bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                  Unavailable
+                </span>
+              )}
+            </div>
           </div>
         </div>
 

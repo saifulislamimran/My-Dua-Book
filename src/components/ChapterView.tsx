@@ -12,10 +12,14 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
   const { activeTrack, isPlaying, setPlaylist, togglePlayPause } = useAudioStore();
 
   const filteredDuas = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return chapter.duas;
+
     return chapter.duas.filter(dua => 
-      dua.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      dua.translation_en.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      dua.arabic.includes(searchQuery)
+      dua.id.toString().includes(query) ||
+      dua.topic.toLowerCase().includes(query) ||
+      dua.translation_en.toLowerCase().includes(query) ||
+      dua.arabic.includes(searchQuery.trim())
     );
   }, [chapter, searchQuery]);
 
@@ -63,7 +67,7 @@ export function ChapterView({ chapter }: { chapter: Chapter }) {
           </div>
           <input 
             type="text" 
-            placeholder="Search by topic or content..." 
+            placeholder="Search by Du'a number, topic, or content..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="block w-full pl-xl pr-md py-4 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-teal focus:border-brand-teal outline-none transition-all shadow-sm font-body-lg text-body-lg text-gray-800 dark:text-gray-100"
